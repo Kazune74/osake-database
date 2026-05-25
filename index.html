@@ -9,8 +9,6 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 auto;padding-bottom:2rem}
-
-/* ===== TOP MENU ===== */
 #top-menu{min-height:100vh;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;position:relative;overflow:hidden}
 #top-menu::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 20%,rgba(139,26,26,0.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(255,255,255,0.03) 0%,transparent 50%)}
 .top-logo{position:relative;text-align:center;margin-bottom:3rem}
@@ -35,12 +33,8 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
 .menu-card-arrow{position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:20px;opacity:0.4}
 .menu-card-wine .menu-card-arrow{color:#fff}
 .menu-card-sake .menu-card-arrow{color:#333}
-
-/* ===== APP SHELL ===== */
 .app-shell{display:none;min-height:100vh;flex-direction:column}
 .app-shell.visible{display:flex}
-
-/* ===== WINE VARS ===== */
 :root{
   --wine:#8B1A1A;--wine-light:#C23B3B;--wine-pale:#F9F0EF;
   --gold:#C9922A;--cream:#FDF8F0;
@@ -48,8 +42,6 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
   --success:#2D6A4F;
   --sake-bg:#f8f8f6;--sake-border:#d8d8d4;--sake-text:#111;--sake-muted:#777;--sake-gold:#8B7340;
 }
-
-/* ===== WINE APP ===== */
 #wine-app .app-header{background:var(--wine);padding:1.25rem 1rem 0.75rem;position:relative;overflow:hidden}
 #wine-app .app-header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.04)}
 #wine-app .back-btn{color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px;margin-bottom:8px}
@@ -92,7 +84,7 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
 #wine-app .form-label{font-size:11px;color:var(--wine-muted);font-weight:500;letter-spacing:0.5px;text-transform:uppercase;display:block;margin-bottom:5px}
 #wine-app .form-input{width:100%;border:0.5px solid var(--wine-border);border-radius:10px;padding:0.55rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:13px;background:#fff;color:var(--wine-text);outline:none;transition:border 0.15s}
 #wine-app .form-input:focus{border-color:var(--wine)}
-#wine-app .form-select{width:100%;border:0.5px solid var(--wine-border);border-radius:10px;padding:0.55rem 2rem 0.55rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:13px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238B6B6B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 0.75rem center;color:var(--wine-text);outline:none;appearance:none;-webkit-appearance:none;text-align:left}
+#wine-app .form-select{width:100%;border:0.5px solid var(--wine-border);border-radius:10px;padding:0.55rem 2rem 0.55rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:13px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238B6B6B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 0.75rem center;color:var(--wine-text);outline:none;appearance:none;-webkit-appearance:none}
 #wine-app .star-rating{display:flex;gap:5px;margin-top:3px}
 #wine-app .star-rating i{font-size:20px;cursor:pointer;color:var(--wine-border);transition:color 0.15s}
 #wine-app .star-rating i.active{color:var(--gold)}
@@ -130,8 +122,6 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
 #wine-app .stat-chip{flex:1;background:#fff;border:0.5px solid var(--wine-border);border-radius:11px;padding:0.55rem 0.5rem;text-align:center}
 #wine-app .stat-num{font-size:17px;font-weight:500;color:var(--wine);display:block}
 #wine-app .stat-lbl{font-size:10px;color:var(--wine-muted)}
-
-/* ===== SAKE APP ===== */
 #sake-app .app-header{background:#111;padding:1.25rem 1rem 0.75rem;position:relative}
 #sake-app .app-header::after{content:'';position:absolute;bottom:0;left:1rem;right:1rem;height:1px;background:rgba(255,255,255,0.08)}
 #sake-app .back-btn{color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px;margin-bottom:8px;font-family:'Noto Sans JP',sans-serif}
@@ -175,7 +165,7 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
 #sake-app .form-label{font-size:11px;color:var(--sake-muted);font-weight:500;letter-spacing:1px;display:block;margin-bottom:5px;font-family:'Noto Sans JP',sans-serif}
 #sake-app .form-input{width:100%;border:0.5px solid var(--sake-border);border-radius:6px;padding:0.55rem 0.8rem;font-family:'Noto Sans JP',sans-serif;font-size:13px;background:#fff;color:var(--sake-text);outline:none;transition:border 0.15s}
 #sake-app .form-input:focus{border-color:#555}
-#sake-app .form-select{width:100%;border:0.5px solid var(--sake-border);border-radius:6px;padding:0.55rem 2rem 0.55rem 0.8rem;font-family:'Noto Sans JP',sans-serif;font-size:13px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 0.75rem center;color:var(--sake-text);outline:none;appearance:none;-webkit-appearance:none;text-align:left}
+#sake-app .form-select{width:100%;border:0.5px solid var(--sake-border);border-radius:6px;padding:0.55rem 2rem 0.55rem 0.8rem;font-family:'Noto Sans JP',sans-serif;font-size:13px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 0.75rem center;color:var(--sake-text);outline:none;appearance:none;-webkit-appearance:none}
 #sake-app .star-rating{display:flex;gap:5px;margin-top:3px}
 #sake-app .star-rating i{font-size:20px;cursor:pointer;color:#ddd;transition:color 0.15s}
 #sake-app .star-rating i.active{color:var(--sake-gold)}
@@ -209,8 +199,6 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
 #sake-app .stat-chip{flex:1;background:#fff;border:0.5px solid var(--sake-border);border-radius:8px;padding:0.55rem 0.5rem;text-align:center}
 #sake-app .stat-num{font-size:17px;font-weight:500;color:#111;display:block}
 #sake-app .stat-lbl{font-size:10px;color:var(--sake-muted);font-family:'Noto Sans JP',sans-serif}
-
-/* ===== SHARED ===== */
 @keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .loading-dots{display:inline-flex;gap:4px;align-items:center;margin-left:8px}
 .loading-dots span{width:5px;height:5px;border-radius:50%;animation:dot 1s infinite;background:rgba(255,255,255,0.7)}
@@ -225,7 +213,6 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
 </head>
 <body>
 
-<!-- ===== TOP MENU ===== -->
 <div id="top-menu">
   <div class="top-logo">
     <div class="top-logo-kanji">飲んだお酒を記録する</div>
@@ -253,7 +240,6 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
   </div>
 </div>
 
-<!-- ===== WINE APP ===== -->
 <div class="app-shell" id="wine-app">
   <div class="app-header">
     <div class="back-btn" onclick="showTop()"><i class="ti ti-arrow-left"></i> お酒データベース</div>
@@ -337,7 +323,6 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
   </div>
 </div>
 
-<!-- ===== SAKE APP ===== -->
 <div class="app-shell" id="sake-app">
   <div class="app-header">
     <div class="back-btn" onclick="showTop()"><i class="ti ti-arrow-left"></i> お酒データベース</div>
@@ -431,7 +416,6 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
    ====================== */
 const API_KEY = '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';
 
-// --- NAV ---
 function showApp(type){
   document.getElementById('top-menu').style.display='none';
   document.getElementById('wine-app').classList.remove('visible');
@@ -444,6 +428,30 @@ function showTop(){
   document.getElementById('top-menu').style.display='flex';
   document.getElementById('wine-app').classList.remove('visible');
   document.getElementById('sake-app').classList.remove('visible');
+}
+
+// ===== 共通: 画像をcanvas経由でJPEGに変換 =====
+function convertToJpeg(file, callback){
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const img = new Image();
+    img.onload = function(){
+      const canvas = document.createElement('canvas');
+      // 長辺1600px以下にリサイズ（API容量制限対策）
+      const MAX = 1600;
+      let w = img.width, h = img.height;
+      if(w > MAX || h > MAX){
+        if(w > h){ h = Math.round(h * MAX / w); w = MAX; }
+        else { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const jpeg = canvas.toDataURL('image/jpeg', 0.9);
+      callback(jpeg, jpeg.split(',')[1]);
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
 }
 
 // ========================
@@ -461,38 +469,49 @@ function wSwitchTab(t){
   if(t==='cellar')wRenderCellar();
 }
 function wHandleFile(e){
-  const file=e.target.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=ev=>{
-    const original=ev.target.result;
-    const canvas=document.createElement('canvas');
-    const imgEl=new Image();
-    imgEl.onload=function(){
-      canvas.width=imgEl.width;canvas.height=imgEl.height;
-      canvas.getContext('2d').drawImage(imgEl,0,0);
-      const jpeg=canvas.toDataURL('image/jpeg',0.9);
-      const preview=document.getElementById('w-preview-img');
-      preview.src=jpeg;preview.style.display='block';
-      document.getElementById('w-upload-placeholder').style.display='none';
-      document.getElementById('w-upload-zone').classList.add('has-image');
-      document.getElementById('w-upload-badge').style.display='block';
-      document.getElementById('w-analyze-btn').disabled=false;
-      wBase64=jpeg.split(',')[1];wMediaType='image/jpeg';
-    };imgEl.src=original;
-  };r.readAsDataURL(file);
+  const file=e.target.files[0]; if(!file)return;
+  convertToJpeg(file, function(dataUrl, base64){
+    const preview=document.getElementById('w-preview-img');
+    preview.src=dataUrl; preview.style.display='block';
+    document.getElementById('w-upload-placeholder').style.display='none';
+    document.getElementById('w-upload-zone').classList.add('has-image');
+    document.getElementById('w-upload-badge').style.display='block';
+    document.getElementById('w-analyze-btn').disabled=false;
+    wBase64=base64;
+  });
 }
 async function wAnalyze(){
   const btn=document.getElementById('w-analyze-btn');
-  btn.disabled=true;btn.innerHTML='<span>分析中</span><span class="loading-dots"><span></span><span></span><span></span></span>';
+  btn.disabled=true; btn.innerHTML='<span>分析中</span><span class="loading-dots"><span></span><span></span><span></span></span>';
   document.getElementById('w-result').innerHTML='';
   const prompt='この画像はワインのラベルです。以下の情報をJSON形式のみで返してください（コードブロック不要）: {"name":"ワイン名","region":"産地","vintage":"年","type":"red/white/sparkling/rose","price_range":"価格帯（日本円）","rating":数字,"tannin":1から5の数字,"acidity":1から5の数字,"sweetness":1から5の数字,"body":1から5の数字,"fruit":1から5の数字,"oak":1から5の数字,"summary":"日本語2〜3文","food_pairing":"おすすめ料理"}';
   try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:'image/jpeg',data:wBase64}},{type:'text',text:prompt}]}]})});
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':API_KEY,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:'image/jpeg',data:wBase64}},
+          {type:'text',text:prompt}
+        ]}]
+      })
+    });
     const data=await resp.json();
+    if(data.error){throw new Error(data.error.message);}
     const w=JSON.parse(data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim());
-    wPending=w;wRenderResult(w);
-  }catch(e){document.getElementById('w-result').innerHTML='<div class="result-card" style="color:var(--wine-muted);font-size:13px;text-align:center"><i class="ti ti-alert-circle" style="font-size:24px;display:block;margin-bottom:8px"></i>分析に失敗しました。</div>';}
-  btn.disabled=false;btn.innerHTML='<i class="ti ti-wand"></i> AIでワインを分析する';
+    wPending=w; wRenderResult(w);
+  }catch(e){
+    console.error('Wine API Error:',e);
+    document.getElementById('w-result').innerHTML='<div class="result-card" style="color:var(--wine-muted);font-size:13px;text-align:center"><i class="ti ti-alert-circle" style="font-size:24px;display:block;margin-bottom:8px"></i>分析に失敗しました。<br><small>'+e.message+'</small></div>';
+  }
+  btn.disabled=false; btn.innerHTML='<i class="ti ti-wand"></i> AIでワインを分析する';
 }
 function wRenderResult(w){
   const bl={red:'badge-red',white:'badge-white',sparkling:'badge-sparkling',rose:'badge-rose'};
@@ -515,18 +534,18 @@ function wRenderResult(w){
   </div>`;
 }
 function wAddAnalyzed(){
-  if(!wPending)return;const w=wPending;
+  if(!wPending)return; const w=wPending;
   wDB.push({id:Date.now(),name:w.name||'不明',type:w.type||'red',region:w.region||'',vintage:w.vintage||'',price:w.price_range||'',rating:Math.round((w.rating||70)/20),tannin:w.tannin||3,acidity:w.acidity||3,sweetness:w.sweetness||2,body:w.body||3,fruit:w.fruit||4,oak:w.oak||3,memo:w.summary||'',date:new Date().toLocaleDateString('ja-JP')});
-  wSave();wToast('✅ セラーに追加しました！');wPending=null;
+  wSave(); wToast('✅ セラーに追加しました！'); wPending=null;
 }
 function wSetRating(n){wRating=n;document.querySelectorAll('#w-stars i').forEach((el,i)=>el.classList.toggle('active',i<n));}
 function wRegister(){
   const name=document.getElementById('w-name').value.trim();
   if(!name){wToast('⚠️ ワイン名を入力してください');return;}
   wDB.push({id:Date.now(),name,type:document.getElementById('w-type').value,region:document.getElementById('w-region').value,price:document.getElementById('w-price').value,rating:wRating||3,tannin:+document.getElementById('w-tannin').value,acidity:+document.getElementById('w-acid').value,sweetness:+document.getElementById('w-sweet').value,body:+document.getElementById('w-body').value,fruit:+document.getElementById('w-fruit').value,oak:+document.getElementById('w-oak').value,memo:document.getElementById('w-memo').value,date:new Date().toLocaleDateString('ja-JP')});
-  wSave();wToast('🍷 セラーに登録しました！');
-  document.getElementById('w-name').value='';document.getElementById('w-region').value='';document.getElementById('w-memo').value='';
-  wSetRating(0);wSwitchTab('cellar');
+  wSave(); wToast('🍷 セラーに登録しました！');
+  document.getElementById('w-name').value=''; document.getElementById('w-region').value=''; document.getElementById('w-memo').value='';
+  wSetRating(0); wSwitchTab('cellar');
 }
 function wRenderCellar(){
   const bl={red:'badge-red',white:'badge-white',sparkling:'badge-sparkling',rose:'badge-rose'};
@@ -567,38 +586,49 @@ function sSwitchTab(t){
   if(t==='cellar')sRenderCellar();
 }
 function sHandleFile(e){
-  const file=e.target.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=ev=>{
-    const original=ev.target.result;
-    const canvas=document.createElement('canvas');
-    const imgEl=new Image();
-    imgEl.onload=function(){
-      canvas.width=imgEl.width;canvas.height=imgEl.height;
-      canvas.getContext('2d').drawImage(imgEl,0,0);
-      const jpeg=canvas.toDataURL('image/jpeg',0.9);
-      const preview=document.getElementById('s-preview-img');
-      preview.src=jpeg;preview.style.display='block';
-      document.getElementById('s-upload-placeholder').style.display='none';
-      document.getElementById('s-upload-zone').classList.add('has-image');
-      document.getElementById('s-upload-badge').style.display='block';
-      document.getElementById('s-analyze-btn').disabled=false;
-      sBase64=jpeg.split(',')[1];sMediaType='image/jpeg';
-    };imgEl.src=original;
-  };r.readAsDataURL(file);
+  const file=e.target.files[0]; if(!file)return;
+  convertToJpeg(file, function(dataUrl, base64){
+    const preview=document.getElementById('s-preview-img');
+    preview.src=dataUrl; preview.style.display='block';
+    document.getElementById('s-upload-placeholder').style.display='none';
+    document.getElementById('s-upload-zone').classList.add('has-image');
+    document.getElementById('s-upload-badge').style.display='block';
+    document.getElementById('s-analyze-btn').disabled=false;
+    sBase64=base64;
+  });
 }
 async function sAnalyze(){
   const btn=document.getElementById('s-analyze-btn');
-  btn.disabled=true;btn.innerHTML='<span>分析中</span><span class="loading-dots"><span></span><span></span><span></span></span>';
+  btn.disabled=true; btn.innerHTML='<span>分析中</span><span class="loading-dots"><span></span><span></span><span></span></span>';
   document.getElementById('s-result').innerHTML='';
   const prompt='この画像は日本酒のラベルです。以下の情報をJSON形式のみで返してください（コードブロック不要）: {"name":"銘柄名","brewery":"蔵元","region":"産地","type":"junmai-daiginjo/daiginjo/junmai-ginjo/ginjo/junmai/honjozo/futsu","price_range":"価格帯（日本円）","rating":数字,"umami":1から5の数字,"aroma":1から5の数字,"body":1から5の数字,"finish":1から5の数字,"summary":"日本語2〜3文","food_pairing":"おすすめ料理"}';
   try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:'image/jpeg',data:sBase64}},{type:'text',text:prompt}]}]})});
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':API_KEY,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:'image/jpeg',data:sBase64}},
+          {type:'text',text:prompt}
+        ]}]
+      })
+    });
     const data=await resp.json();
+    if(data.error){throw new Error(data.error.message);}
     const s=JSON.parse(data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim());
-    sPending=s;sRenderResult(s);
-  }catch(e){document.getElementById('s-result').innerHTML='<div class="result-card" style="color:var(--sake-muted);font-size:13px;text-align:center;font-family:Noto Sans JP,sans-serif"><i class="ti ti-alert-circle" style="font-size:24px;display:block;margin-bottom:8px"></i>分析に失敗しました。</div>';}
-  btn.disabled=false;btn.innerHTML='<i class="ti ti-wand"></i> AIで日本酒を分析する';
+    sPending=s; sRenderResult(s);
+  }catch(e){
+    console.error('Sake API Error:',e);
+    document.getElementById('s-result').innerHTML='<div class="result-card" style="color:var(--sake-muted);font-size:13px;text-align:center"><i class="ti ti-alert-circle" style="font-size:24px;display:block;margin-bottom:8px"></i>分析に失敗しました。<br><small>'+e.message+'</small></div>';
+  }
+  btn.disabled=false; btn.innerHTML='<i class="ti ti-wand"></i> AIで日本酒を分析する';
 }
 const sTL={'junmai-daiginjo':'純米大吟醸','daiginjo':'大吟醸','junmai-ginjo':'純米吟醸','ginjo':'吟醸','junmai':'純米','honjozo':'本醸造','futsu':'普通酒'};
 function sRenderResult(s){
@@ -620,18 +650,18 @@ function sRenderResult(s){
   </div>`;
 }
 function sAddAnalyzed(){
-  if(!sPending)return;const s=sPending;
+  if(!sPending)return; const s=sPending;
   sDB.push({id:Date.now(),name:s.name||'不明',type:s.type||'junmai',region:(s.brewery||'')+(s.region?' / '+s.region:''),price:s.price_range||'',rating:Math.round((s.rating||70)/20),umami:s.umami||3,aroma:s.aroma||3,body:s.body||3,finish:s.finish||3,memo:s.summary||'',date:new Date().toLocaleDateString('ja-JP')});
-  sSave();sToast('✅ 蔵出しに追加しました！');sPending=null;
+  sSave(); sToast('✅ 蔵出しに追加しました！'); sPending=null;
 }
 function sSetRating(n){sRating=n;document.querySelectorAll('#s-stars i').forEach((el,i)=>el.classList.toggle('active',i<n));}
 function sRegister(){
   const name=document.getElementById('s-name').value.trim();
   if(!name){sToast('⚠️ 銘柄名を入力してください');return;}
   sDB.push({id:Date.now(),name,type:document.getElementById('s-type').value,region:document.getElementById('s-region').value,price:document.getElementById('s-price').value,rating:sRating||3,umami:+document.getElementById('s-umami').value,aroma:+document.getElementById('s-aroma').value,body:+document.getElementById('s-body').value,finish:+document.getElementById('s-finish').value,memo:document.getElementById('s-memo').value,date:new Date().toLocaleDateString('ja-JP')});
-  sSave();sToast('🍶 蔵出しに登録しました！');
-  document.getElementById('s-name').value='';document.getElementById('s-region').value='';document.getElementById('s-memo').value='';
-  sSetRating(0);sSwitchTab('cellar');
+  sSave(); sToast('🍶 蔵出しに登録しました！');
+  document.getElementById('s-name').value=''; document.getElementById('s-region').value=''; document.getElementById('s-memo').value='';
+  sSetRating(0); sSwitchTab('cellar');
 }
 function sRenderCellar(){
   const total=sDB.length,avg=total?Math.round(sDB.reduce((s,w)=>s+w.rating,0)/total*10)/10:0,types=new Set(sDB.map(s=>s.type)).size;
@@ -655,8 +685,7 @@ function sRenderCellar(){
 }
 function sToast(msg){const t=document.getElementById('sake-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 
-// --- INIT ---
-wLoad();sLoad();
+wLoad(); sLoad();
 </script>
 </body>
 </html>

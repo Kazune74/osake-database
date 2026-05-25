@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🍶 お酒データベース</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=DM+Sans:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 auto;padding-bottom:2rem}
+#top-menu{min-height:100vh;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;position:relative;overflow:hidden}
+#top-menu::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 20%,rgba(139,26,26,0.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(255,255,255,0.03) 0%,transparent 50%)}
+.top-logo{position:relative;text-align:center;margin-bottom:3rem}
+.top-logo-kanji{font-family:'Noto Serif JP',serif;font-size:13px;letter-spacing:4px;color:rgba(255,255,255,0.35);margin-bottom:0.5rem}
+.top-logo-title{font-family:'Noto Serif JP',serif;font-size:28px;color:#fff;letter-spacing:2px;font-weight:700}
+.top-logo-sub{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.25);margin-top:6px;text-transform:uppercase}
+.top-divider{width:40px;height:1px;background:rgba(255,255,255,0.15);margin:1.5rem auto}
+.menu-cards{display:flex;flex-direction:column;gap:1rem;width:100%;max-width:300px;position:relative}
+.menu-card{border-radius:16px;padding:1.5rem;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;display:flex;align-items:center;gap:1rem;position:relative;overflow:hidden}
+.menu-card:hover{transform:translateY(-2px)}
+.menu-card-wine{background:linear-gradient(135deg,#5a0e0e,#8B1A1A);border:1px solid rgba(255,255,255,0.1)}
+.menu-card-wine:hover{box-shadow:0 8px 32px rgba(139,26,26,0.5)}
+.menu-card-sake{background:#fff;border:1px solid #e0e0e0}
+.menu-card-sake:hover{box-shadow:0 8px 32px rgba(0,0,0,0.2)}
+.menu-card-icon{font-size:32px;flex-shrink:0}
+.menu-card-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.menu-card-wine .menu-card-label{color:rgba(255,255,255,0.5)}
+.menu-card-sake .menu-card-label{color:#999}
+.menu-card-name{font-size:18px;font-weight:700;letter-spacing:1px}
+.menu-card-wine .menu-card-name{color:#fff;font-family:'Playfair Display',serif}
+.menu-card-sake .menu-card-name{color:#111;font-family:'Noto Serif JP',serif}
+.menu-card-arrow{position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:20px;opacity:0.4}
+.menu-card-wine .menu-card-arrow{color:#fff}
+.menu-card-sake .menu-card-arrow{color:#333}
+.app-shell{display:none;min-height:100vh;flex-direction:column}
+.app-shell.visible{display:flex}
+:root{
+  --wine:#8B1A1A;--wine-light:#C23B3B;--wine-pale:#F9F0EF;
+  --gold:#C9922A;--cream:#FDF8F0;
+  --wine-text:#2D1515;--wine-muted:#8B6B6B;--wine-border:#E8D5D0;
+  --success:#2D6A4F;
+  --sake-bg:#f8f8f6;--sake-border:#d8d8d4;--sake-text:#111;--sake-muted:#777;--sake-gold:#8B7340;
+}
+#wine-app .app-header{background:var(--wine);padding:1.25rem 1rem 0.75rem;position:relative;overflow:hidden}
+#wine-app .app-header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.04)}
+#wine-app .back-btn{color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px;margin-bottom:8px}
+#wine-app .back-btn:hover{color:#fff}
+#wine-app .app-title{color:#fff;font-size:20px;letter-spacing:0.5px;font-family:'Playfair Display',serif}
+#wine-app .app-subtitle{color:rgba(255,255,255,0.5);font-size:11px;margin-top:2px;letter-spacing:1px;text-transform:uppercase}
+#wine-app .content{background:var(--cream);flex:1}
+#wine-app .tab-bar{display:flex;background:var(--wine);padding:0 1rem;border-bottom:1px solid rgba(255,255,255,0.1)}
+#wine-app .tab{flex:1;padding:0.7rem 0;text-align:center;color:rgba(255,255,255,0.5);font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
+#wine-app .tab.active{color:#fff;border-bottom-color:var(--gold)}
+#wine-app .tab i{display:block;font-size:17px;margin-bottom:2px}
+#wine-app .screen{display:none;padding:1rem}
+#wine-app .screen.active{display:block}
+#wine-app .section-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--wine-muted);margin-bottom:0.75rem;font-weight:500}
+#wine-app .upload-zone{background:var(--wine-pale);border:1.5px dashed var(--wine-light);border-radius:16px;padding:2rem 1rem;text-align:center;cursor:pointer;transition:all 0.2s;margin-bottom:1.25rem;position:relative;overflow:hidden}
+#wine-app .upload-zone:hover{background:#F2E0DE}
+#wine-app .upload-zone.has-image{border-style:solid;background:#fff;padding:0}
+#wine-app .upload-zone img{width:100%;border-radius:14px;max-height:200px;object-fit:cover;display:block}
+#wine-app .upload-icon{font-size:32px;color:var(--wine-light);margin-bottom:0.5rem}
+#wine-app .upload-text{color:var(--wine);font-weight:500;font-size:14px;margin-bottom:4px}
+#wine-app .upload-sub{color:var(--wine-muted);font-size:12px}
+#wine-app .upload-badge{position:absolute;top:10px;right:10px;background:var(--wine);color:#fff;font-size:11px;padding:4px 10px;border-radius:20px}
+#wine-app .analyze-btn{width:100%;background:var(--wine);color:#fff;border:none;border-radius:12px;padding:0.85rem;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s}
+#wine-app .analyze-btn:hover{background:var(--wine-light)}
+#wine-app .analyze-btn:disabled{background:#C9A0A0;cursor:not-allowed}
+#wine-app .result-card{background:#fff;border-radius:16px;border:0.5px solid var(--wine-border);padding:1.25rem;margin-top:1rem;animation:slideUp 0.3s ease}
+#wine-app .item-name{font-size:17px;color:var(--wine-text);margin-bottom:4px;font-family:'Playfair Display',serif}
+#wine-app .item-region{font-size:12px;color:var(--wine-muted);margin-bottom:0.75rem}
+#wine-app .price-badge{display:inline-block;background:var(--wine-pale);color:var(--wine);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;margin-bottom:0.75rem}
+#wine-app .taste-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0.75rem 0}
+#wine-app .taste-item{background:var(--cream);border-radius:10px;padding:0.5rem 0.625rem}
+#wine-app .taste-label{font-size:10px;color:var(--wine-muted);margin-bottom:3px}
+#wine-app .taste-bar-wrap{background:var(--wine-border);border-radius:4px;height:5px;overflow:hidden}
+#wine-app .taste-bar{height:5px;border-radius:4px;background:linear-gradient(90deg,var(--wine-light),var(--wine))}
+#wine-app .taste-value{font-size:11px;font-weight:500;color:var(--wine-text);margin-top:2px}
+#wine-app .review-text{font-size:12px;color:var(--wine-muted);line-height:1.7;margin-top:0.75rem;padding-top:0.75rem;border-top:0.5px solid var(--wine-border)}
+#wine-app .add-btn{width:100%;background:var(--success);color:#fff;border:none;border-radius:12px;padding:0.7rem;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;margin-top:0.75rem}
+#wine-app .register-form{background:#fff;border-radius:16px;border:0.5px solid var(--wine-border);padding:1.25rem;margin-bottom:1rem}
+#wine-app .form-group{margin-bottom:0.875rem}
+#wine-app .form-label{font-size:11px;color:var(--wine-muted);font-weight:500;letter-spacing:0.5px;text-transform:uppercase;display:block;margin-bottom:5px}
+#wine-app .form-input{width:100%;border:0.5px solid var(--wine-border);border-radius:10px;padding:0.55rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:13px;background:#fff;color:var(--wine-text);outline:none;transition:border 0.15s}
+#wine-app .form-input:focus{border-color:var(--wine)}
+#wine-app .form-select{width:100%;border:0.5px solid var(--wine-border);border-radius:10px;padding:0.55rem 2rem 0.55rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:13px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238B6B6B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 0.75rem center;color:var(--wine-text);outline:none;appearance:none;-webkit-appearance:none}
+#wine-app .star-rating{display:flex;gap:5px;margin-top:3px}
+#wine-app .star-rating i{font-size:20px;cursor:pointer;color:var(--wine-border);transition:color 0.15s}
+#wine-app .star-rating i.active{color:var(--gold)}
+#wine-app .taste-sliders{display:flex;flex-direction:column;gap:0.65rem}
+#wine-app .slider-row{display:flex;align-items:center;gap:8px}
+#wine-app .slider-name{font-size:11px;color:var(--wine-muted);width:68px;flex-shrink:0}
+#wine-app .slider-row input[type=range]{flex:1;accent-color:var(--wine)}
+#wine-app .slider-val{font-size:11px;font-weight:500;color:var(--wine);width:16px;text-align:right}
+#wine-app .submit-btn{width:100%;background:var(--wine);color:#fff;border:none;border-radius:12px;padding:0.85rem;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer}
+#wine-app .submit-btn:hover{background:var(--wine-light)}
+#wine-app .item-list{display:flex;flex-direction:column;gap:0.625rem;margin-bottom:1rem}
+#wine-app .item-card{background:#fff;border-radius:14px;border:0.5px solid var(--wine-border);padding:0.875rem;display:flex;gap:10px}
+#wine-app .item-thumb{width:40px;height:40px;border-radius:9px;flex-shrink:0;background:var(--wine-pale);display:flex;align-items:center;justify-content:center}
+#wine-app .item-thumb i{font-size:20px;color:var(--wine-light)}
+#wine-app .item-info{flex:1;min-width:0}
+#wine-app .item-card-name{font-size:13px;font-weight:500;color:var(--wine-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#wine-app .item-card-meta{font-size:11px;color:var(--wine-muted);margin-top:2px}
+#wine-app .item-stars{color:var(--gold);font-size:11px;margin-top:2px}
+#wine-app .type-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500}
+#wine-app .badge-red{background:#F9E8E8;color:var(--wine)}
+#wine-app .badge-white{background:#FBF8E8;color:#7A6A10}
+#wine-app .badge-sparkling{background:#E8F0FB;color:#1A3D7A}
+#wine-app .badge-rose{background:#FBEAF2;color:#8A2355}
+#wine-app .empty-state{text-align:center;padding:2.5rem 1rem;color:var(--wine-muted)}
+#wine-app .empty-state i{font-size:36px;display:block;margin-bottom:0.75rem;color:var(--wine-border)}
+#wine-app .recommend-section{background:var(--wine);border-radius:16px;padding:1.25rem;margin-bottom:1rem;color:#fff}
+#wine-app .recommend-title{font-size:15px;margin-bottom:0.25rem;font-family:'Playfair Display',serif}
+#wine-app .recommend-sub{font-size:11px;opacity:0.65;margin-bottom:0.875rem}
+#wine-app .recommend-chips{display:flex;flex-direction:column;gap:7px}
+#wine-app .recommend-chip{background:rgba(255,255,255,0.12);border-radius:11px;padding:0.55rem 0.8rem;font-size:12px;display:flex;align-items:center;gap:7px}
+#wine-app .recommend-chip i{font-size:15px;opacity:0.8;flex-shrink:0}
+#wine-app .chip-name{font-weight:500}
+#wine-app .chip-why{font-size:10px;opacity:0.65;display:block;margin-top:1px}
+#wine-app .stats-bar{display:flex;gap:8px;margin-bottom:1rem}
+#wine-app .stat-chip{flex:1;background:#fff;border:0.5px solid var(--wine-border);border-radius:11px;padding:0.55rem 0.5rem;text-align:center}
+#wine-app .stat-num{font-size:17px;font-weight:500;color:var(--wine);display:block}
+#wine-app .stat-lbl{font-size:10px;color:var(--wine-muted)}
+#sake-app .app-header{background:#111;padding:1.25rem 1rem 0.75rem;position:relative}
+#sake-app .app-header::after{content:'';position:absolute;bottom:0;left:1rem;right:1rem;height:1px;background:rgba(255,255,255,0.08)}
+#sake-app .back-btn{color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px;margin-bottom:8px;font-family:'Noto Sans JP',sans-serif}
+#sake-app .back-btn:hover{color:#fff}
+#sake-app .app-title{color:#fff;font-size:20px;letter-spacing:3px;font-family:'Noto Serif JP',serif;font-weight:700}
+#sake-app .app-subtitle{color:rgba(255,255,255,0.3);font-size:11px;margin-top:2px;letter-spacing:2px}
+#sake-app .content{background:var(--sake-bg);flex:1}
+#sake-app .tab-bar{display:flex;background:#111;padding:0 1rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+#sake-app .tab{flex:1;padding:0.7rem 0;text-align:center;color:rgba(255,255,255,0.35);font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;font-family:'Noto Sans JP',sans-serif}
+#sake-app .tab.active{color:#fff;border-bottom-color:rgba(255,255,255,0.7)}
+#sake-app .tab i{display:block;font-size:17px;margin-bottom:2px}
+#sake-app .screen{display:none;padding:1rem}
+#sake-app .screen.active{display:block}
+#sake-app .section-label{font-size:10px;letter-spacing:2px;color:var(--sake-muted);margin-bottom:0.75rem;font-weight:500;font-family:'Noto Sans JP',sans-serif}
+#sake-app .upload-zone{background:#fff;border:1.5px dashed #bbb;border-radius:12px;padding:2rem 1rem;text-align:center;cursor:pointer;transition:all 0.2s;margin-bottom:1.25rem;position:relative;overflow:hidden}
+#sake-app .upload-zone:hover{background:#f0f0ee;border-color:#888}
+#sake-app .upload-zone.has-image{border-style:solid;background:#fff;padding:0}
+#sake-app .upload-zone img{width:100%;border-radius:10px;max-height:200px;object-fit:cover;display:block}
+#sake-app .upload-icon{font-size:32px;color:#aaa;margin-bottom:0.5rem}
+#sake-app .upload-text{color:#444;font-weight:500;font-size:14px;margin-bottom:4px;font-family:'Noto Sans JP',sans-serif}
+#sake-app .upload-sub{color:var(--sake-muted);font-size:12px;font-family:'Noto Sans JP',sans-serif}
+#sake-app .upload-badge{position:absolute;top:10px;right:10px;background:#222;color:#fff;font-size:11px;padding:4px 10px;border-radius:6px}
+#sake-app .analyze-btn{width:100%;background:#111;color:#fff;border:none;border-radius:8px;padding:0.85rem;font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s;letter-spacing:1px}
+#sake-app .analyze-btn:hover{background:#333}
+#sake-app .analyze-btn:disabled{background:#aaa;cursor:not-allowed}
+#sake-app .result-card{background:#fff;border-radius:12px;border:0.5px solid var(--sake-border);padding:1.25rem;margin-top:1rem;animation:slideUp 0.3s ease}
+#sake-app .item-name{font-size:18px;color:var(--sake-text);margin-bottom:4px;font-family:'Noto Serif JP',serif;font-weight:700;letter-spacing:1px}
+#sake-app .item-region{font-size:12px;color:var(--sake-muted);margin-bottom:0.75rem;font-family:'Noto Sans JP',sans-serif}
+#sake-app .price-badge{display:inline-block;background:#f0f0ee;color:#444;padding:4px 12px;border-radius:4px;font-size:12px;font-weight:500;margin-bottom:0.75rem;font-family:'Noto Sans JP',sans-serif}
+#sake-app .taste-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:0.75rem 0}
+#sake-app .taste-item{background:var(--sake-bg);border-radius:8px;padding:0.5rem 0.625rem;border:0.5px solid var(--sake-border)}
+#sake-app .taste-label{font-size:10px;color:var(--sake-muted);margin-bottom:3px;font-family:'Noto Sans JP',sans-serif}
+#sake-app .taste-bar-wrap{background:#ddd;border-radius:2px;height:4px;overflow:hidden}
+#sake-app .taste-bar{height:4px;border-radius:2px;background:#222}
+#sake-app .taste-value{font-size:11px;font-weight:500;color:var(--sake-text);margin-top:2px}
+#sake-app .review-text{font-size:12px;color:var(--sake-muted);line-height:1.8;margin-top:0.75rem;padding-top:0.75rem;border-top:0.5px solid var(--sake-border);font-family:'Noto Sans JP',sans-serif}
+#sake-app .add-btn{width:100%;background:#111;color:#fff;border:none;border-radius:8px;padding:0.7rem;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;cursor:pointer;margin-top:0.75rem;letter-spacing:1px}
+#sake-app .add-btn:hover{background:#333}
+#sake-app .register-form{background:#fff;border-radius:12px;border:0.5px solid var(--sake-border);padding:1.25rem;margin-bottom:1rem}
+#sake-app .form-group{margin-bottom:0.875rem}
+#sake-app .form-label{font-size:11px;color:var(--sake-muted);font-weight:500;letter-spacing:1px;display:block;margin-bottom:5px;font-family:'Noto Sans JP',sans-serif}
+#sake-app .form-input{width:100%;border:0.5px solid var(--sake-border);border-radius:6px;padding:0.55rem 0.8rem;font-family:'Noto Sans JP',sans-serif;font-size:13px;background:#fff;color:var(--sake-text);outline:none;transition:border 0.15s}
+#sake-app .form-input:focus{border-color:#555}
+#sake-app .form-select{width:100%;border:0.5px solid var(--sake-border);border-radius:6px;padding:0.55rem 2rem 0.55rem 0.8rem;font-family:'Noto Sans JP',sans-serif;font-size:13px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 0.75rem center;color:var(--sake-text);outline:none;appearance:none;-webkit-appearance:none}
+#sake-app .star-rating{display:flex;gap:5px;margin-top:3px}
+#sake-app .star-rating i{font-size:20px;cursor:pointer;color:#ddd;transition:color 0.15s}
+#sake-app .star-rating i.active{color:var(--sake-gold)}
+#sake-app .taste-sliders{display:flex;flex-direction:column;gap:0.65rem}
+#sake-app .slider-row{display:flex;align-items:center;gap:8px}
+#sake-app .slider-name{font-size:11px;color:var(--sake-muted);width:60px;flex-shrink:0;font-family:'Noto Sans JP',sans-serif}
+#sake-app .slider-row input[type=range]{flex:1;accent-color:#222}
+#sake-app .slider-val{font-size:11px;font-weight:500;color:#333;width:16px;text-align:right}
+#sake-app .submit-btn{width:100%;background:#111;color:#fff;border:none;border-radius:8px;padding:0.85rem;font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:500;cursor:pointer;letter-spacing:1px}
+#sake-app .submit-btn:hover{background:#333}
+#sake-app .item-list{display:flex;flex-direction:column;gap:0.625rem;margin-bottom:1rem}
+#sake-app .item-card{background:#fff;border-radius:10px;border:0.5px solid var(--sake-border);padding:0.875rem;display:flex;gap:10px}
+#sake-app .item-thumb{width:40px;height:40px;border-radius:6px;flex-shrink:0;background:#f0f0ee;display:flex;align-items:center;justify-content:center;border:0.5px solid var(--sake-border)}
+#sake-app .item-thumb i{font-size:20px;color:#999}
+#sake-app .item-info{flex:1;min-width:0}
+#sake-app .item-card-name{font-size:13px;font-weight:500;color:var(--sake-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Noto Serif JP',serif}
+#sake-app .item-card-meta{font-size:11px;color:var(--sake-muted);margin-top:2px;font-family:'Noto Sans JP',sans-serif}
+#sake-app .item-stars{color:var(--sake-gold);font-size:11px;margin-top:2px}
+#sake-app .type-badge{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500;font-family:'Noto Sans JP',sans-serif;background:#f0f0ee;color:#444;border:0.5px solid #ddd}
+#sake-app .empty-state{text-align:center;padding:2.5rem 1rem;color:var(--sake-muted);font-family:'Noto Sans JP',sans-serif}
+#sake-app .empty-state i{font-size:36px;display:block;margin-bottom:0.75rem;color:#ccc}
+#sake-app .recommend-section{background:#111;border-radius:12px;padding:1.25rem;margin-bottom:1rem;color:#fff}
+#sake-app .recommend-title{font-size:15px;margin-bottom:0.25rem;font-family:'Noto Serif JP',serif;letter-spacing:1px}
+#sake-app .recommend-sub{font-size:11px;opacity:0.45;margin-bottom:0.875rem;font-family:'Noto Sans JP',sans-serif}
+#sake-app .recommend-chips{display:flex;flex-direction:column;gap:7px}
+#sake-app .recommend-chip{background:rgba(255,255,255,0.07);border-radius:8px;padding:0.55rem 0.8rem;font-size:12px;display:flex;align-items:center;gap:7px;border:0.5px solid rgba(255,255,255,0.1)}
+#sake-app .recommend-chip i{font-size:15px;opacity:0.6;flex-shrink:0}
+#sake-app .chip-name{font-weight:500;font-family:'Noto Serif JP',serif}
+#sake-app .chip-why{font-size:10px;opacity:0.45;display:block;margin-top:1px;font-family:'Noto Sans JP',sans-serif}
+#sake-app .stats-bar{display:flex;gap:8px;margin-bottom:1rem}
+#sake-app .stat-chip{flex:1;background:#fff;border:0.5px solid var(--sake-border);border-radius:8px;padding:0.55rem 0.5rem;text-align:center}
+#sake-app .stat-num{font-size:17px;font-weight:500;color:#111;display:block}
+#sake-app .stat-lbl{font-size:10px;color:var(--sake-muted);font-family:'Noto Sans JP',sans-serif}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.loading-dots{display:inline-flex;gap:4px;align-items:center;margin-left:8px}
+.loading-dots span{width:5px;height:5px;border-radius:50%;animation:dot 1s infinite;background:rgba(255,255,255,0.7)}
+.loading-dots span:nth-child(2){animation-delay:0.2s}
+.loading-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes dot{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:opacity 0.3s;z-index:999;white-space:nowrap}
+.toast.show{opacity:1}
+#wine-toast{background:var(--success);color:#fff}
+#sake-toast{background:#222;color:#fff}
+</style>
+</head>
+<body>
+
+<div id="top-menu">
+  <div class="top-logo">
+    <div class="top-logo-kanji">飲んだお酒を記録する</div>
+    <div class="top-logo-title">お酒データベース</div>
+    <div class="top-divider"></div>
+    <div class="top-logo-sub">Select your drink</div>
+  </div>
+  <div class="menu-cards">
+    <div class="menu-card menu-card-wine" onclick="showApp('wine')">
+      <div class="menu-card-icon">🍷</div>
+      <div class="menu-card-text">
+        <div class="menu-card-label">Wine</div>
+        <div class="menu-card-name">ワイン</div>
+      </div>
+      <i class="ti ti-chevron-right menu-card-arrow"></i>
+    </div>
+    <div class="menu-card menu-card-sake" onclick="showApp('sake')">
+      <div class="menu-card-icon">🍶</div>
+      <div class="menu-card-text">
+        <div class="menu-card-label">Sake</div>
+        <div class="menu-card-name">日本酒</div>
+      </div>
+      <i class="ti ti-chevron-right menu-card-arrow"></i>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell" id="wine-app">
+  <div class="app-header">
+    <div class="back-btn" onclick="showTop()"><i class="ti ti-arrow-left"></i> お酒データベース</div>
+    <div class="app-title">🍷 ワイン</div>
+    <div class="app-subtitle">Wine Collection</div>
+  </div>
+  <div class="tab-bar">
+    <div class="tab active" onclick="wSwitchTab('search')" id="w-tab-search"><i class="ti ti-camera-search"></i>検索</div>
+    <div class="tab" onclick="wSwitchTab('register')" id="w-tab-register"><i class="ti ti-pencil-plus"></i>登録</div>
+    <div class="tab" onclick="wSwitchTab('cellar')" id="w-tab-cellar"><i class="ti ti-database"></i>セラー</div>
+  </div>
+  <div class="content">
+    <div class="screen active" id="w-screen-search">
+      <p class="section-label" style="margin-top:1rem">ラベル画像で検索</p>
+      <div class="upload-zone" id="w-upload-zone" onclick="document.getElementById('w-file-input').click()">
+        <div id="w-upload-placeholder">
+          <div class="upload-icon"><i class="ti ti-photo-scan"></i></div>
+          <div class="upload-text">ラベルの写真をアップロード</div>
+          <div class="upload-sub">タップして画像を選択</div>
+        </div>
+        <img id="w-preview-img" style="display:none" alt="プレビュー"/>
+        <div class="upload-badge" id="w-upload-badge" style="display:none"><i class="ti ti-check"></i> 選択済み</div>
+      </div>
+      <input type="file" id="w-file-input" accept="image/*,.heic,.heif" onchange="wHandleFile(event)"/>
+      <button class="analyze-btn" id="w-analyze-btn" onclick="wAnalyze()" disabled><i class="ti ti-wand"></i> AIでワインを分析する</button>
+      <div id="w-result"></div>
+    </div>
+    <div class="screen" id="w-screen-register">
+      <div style="margin-top:1rem">
+        <p class="section-label">飲んだワインを登録</p>
+        <div class="register-form">
+          <div class="form-group"><label class="form-label">ワイン名</label><input type="text" class="form-input" id="w-name" placeholder="例: シャトー・マルゴー 2018"/></div>
+          <div class="form-group"><label class="form-label">種類</label>
+            <select class="form-select" id="w-type">
+              <option value="red">🍷 赤ワイン</option>
+              <option value="white">🥂 白ワイン</option>
+              <option value="sparkling">🫧 スパークリング</option>
+              <option value="rose">🌸 ロゼ</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">産地・ヴィンテージ</label><input type="text" class="form-input" id="w-region" placeholder="例: フランス ボルドー / 2018"/></div>
+          <div class="form-group"><label class="form-label">価格帯</label>
+            <select class="form-select" id="w-price">
+              <option value="〜¥2,000">〜¥2,000（デイリー）</option>
+              <option value="¥2,000〜5,000">¥2,000〜5,000</option>
+              <option value="¥5,000〜10,000" selected>¥5,000〜10,000</option>
+              <option value="¥10,000〜30,000">¥10,000〜30,000</option>
+              <option value="¥30,000〜">¥30,000〜</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">総合評価</label>
+            <div class="star-rating" id="w-stars">
+              <i class="ti ti-star" onclick="wSetRating(1)"></i><i class="ti ti-star" onclick="wSetRating(2)"></i>
+              <i class="ti ti-star" onclick="wSetRating(3)"></i><i class="ti ti-star" onclick="wSetRating(4)"></i>
+              <i class="ti ti-star" onclick="wSetRating(5)"></i>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">味の傾向</label>
+            <div class="taste-sliders">
+              <div class="slider-row"><span class="slider-name">タンニン</span><input type="range" min="1" max="5" value="3" id="w-tannin" oninput="this.nextElementSibling.textContent=this.value"/><span class="slider-val">3</span></div>
+              <div class="slider-row"><span class="slider-name">酸味</span><input type="range" min="1" max="5" value="3" id="w-acid" oninput="this.nextElementSibling.textContent=this.value"/><span class="slider-val">3</span></div>
+              <div class="slider-row"><span class="slider-name">甘み</span><input type="range" min="1" max="5" value="2" id="w-sweet" oninput="this.nextElementSibling.textContent=this.value"/><span class="slider-val">2</span></div>
+              <div class="slider-row"><span class="slider-name">ボディ</span><input type="range" min="1" max="5" value="3" id="w-body" oninput="this.nextElementSibling.textContent=this.value"/><span class="slider-val">3</span></div>
+              <div class="slider-row"><span class="slider-name">フルーツ</span><input type="range" min="1" max="5" value="4" id="w-fruit" oninput="this.nextElementSibling.textContent=this.value"/><span class="slider-val">4</span></div>
+              <div class="slider-row"><span class="slider-name">樽の風味</span><input type="range" min="1" max="5" value="3" id="w-oak" oninput="this.nextElementSibling.textContent=this.value"/><span class="slider-val">3</span></div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">メモ</label><textarea class="form-input" id="w-memo" rows="3" placeholder="香りや味の印象など..." style="resize:none;line-height:1.6"></textarea></div>
+        </div>
+        <button class="submit-btn" onclick="wRegister()"><i class="ti ti-circle-plus"></i> セラーに登録する</button>
+      </div>
+    </div>
+    <div class="screen" id="w-screen-cellar">
+      <div style="margin-top:1rem">
+        <div class="stats-bar" id="w-stats"></div>
+        <div id="w-recommend"></div>
+        <p class="section-label">登録済みワイン</p>
+        <div class="item-list" id="w-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell" id="sake-app">
+  <div class="app-header">
+    <div class="back-btn" onclick="showTop()"><i class="ti ti-arrow-left"></i> お酒データベース</div>
+    <div class="app-title">🍶 日本酒</div>
+    <div class="app-subtitle">Sake Collection</div>
+  </div>
+  <div class="tab-bar">
+    <div class="tab active" onclick="sSwitchTab('search')" id="s-tab-search"><i class="ti ti-camera-search"></i>検索</div>
+    <div class="tab" onclick="sSwitchTab('register')" id="s-tab-register"><i class="ti ti-pencil-plus"></i>登録</div>
+    <div class="tab" onclick="sSwitchTab('cellar')" id="s-tab-cellar"><i class="ti ti-database"></i>蔵出し</div>
+  </div>
+  <div class="content">
+    <div class="screen active" id="s-screen-search">
+      <p class="section-label" style="margin-top:1rem">ラベル画像で検索</p>
+      <div class="upload-zone" id="s-upload-zone" onclick="document.getElementById('s-file-input').click()">
+        <div id="s-upload-placeholder">
+          <div class="upload-icon"><i class="ti ti-photo-scan"></i></div>
+          <div class="upload-text">ラベルの写真をアップロード</div>
+          <div class="upload-sub">タップして画像を選択</div>
+        </div>
+        <img id="s-preview-img" style="display:none" alt="プレビュー"/>
+        <div class="upload-badge" id="s-upload-badge" style="display:none"><i class="ti ti-check"></i> 選択済み</div>
+      </div>
+      <input type="file" id="s-file-input" accept="image/*,.heic,.heif" onchange="sHandleFile(event)"/>
+      <button class="analyze-btn" id="s-analyze-btn" onclick="sAnalyze()" disabled><i class="ti ti-wand"></i> AIで日本酒を分析する</button>
+      <div id="s-result"></div>
+    </div>
+    <div class="screen" id="s-screen-register">
+      <div style="margin-top:1rem">
+        <p class="section-label">飲んだ日本酒を登録</p>
+        <div class="register-form">
+          <div class="form-group"><label class="form-label">銘柄名</label><input type="text" class="form-input" id="s-name" placeholder="例: 獺祭 純米大吟醸 磨き三割九分"/></div>
+          <div class="form-group"><label class="form-label">種類（製法別）</label>
+            <select class="form-select" id="s-type">
+              <option value="junmai-daiginjo">純米大吟醸</option>
+              <option value="daiginjo">大吟醸</option>
+              <option value="junmai-ginjo">純米吟醸</option>
+              <option value="ginjo">吟醸</option>
+              <option value="junmai">純米</option>
+              <option value="honjozo">本醸造</option>
+              <option value="futsu">普通酒</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">蔵元・産地</label><input type="text" class="form-input" id="s-region" placeholder="例: 旭酒造 / 山口県"/></div>
+          <div class="form-group"><label class="form-label">価格帯</label>
+            <select class="form-select" id="s-price">
+              <option value="〜¥1,500">〜¥1,500（デイリー）</option>
+              <option value="¥1,500〜3,000">¥1,500〜3,000</option>
+              <option value="¥3,000〜6,000" selected>¥3,000〜6,000</option>
+              <option value="¥6,000〜15,000">¥6,000〜15,000</option>
+              <option value="¥15,000〜">¥15,000〜</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">総合評価</label>
+            <div class="star-rating" id="s-stars">
+              <i class="ti ti-star" onclick="sSetRating(1)"></i><i class="ti ti-star" onclick="sSetRating(2)"></i>
+              <i class="ti ti-star" onclick="sSetRating(3)"></i><i class="ti ti-star" onclick="sSetRating(4)"></i>
+              <i class="ti ti-star" onclick="sSetRating(5)"></i>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">味の傾向</label>
+            <div class="taste-sliders">
+              <div class="slider-row"><span class="slider-name">旨味</span><input type="range" min="1" max="5" value="3" id="s-umami" oninput="this.nextElementSibling.textContent=this.value"/><span class="slider-val">3</span></div>
+              <div class="slider-row"><span class="slider-name">香り</span><input type="range" min="1" max="5" value="3" id="s-aroma" oninput="this.nextElementSibling.textContent=this.value"/><span class="slider-val">3</span></div>
+              <div class="slider-row"><span class="slider-name">コク</span><input type="range" min="1" max="5" value="3" id="s-body" oninput="this.nextElementSibling.textContent=this.value"/><span class="slider-val">3</span></div>
+              <div class="slider-row"><span class="slider-name">後味・キレ</span><input type="range" min="1" max="5" value="3" id="s-finish" oninput="this.nextElementSibling.textContent=this.value"/><span class="slider-val">3</span></div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">メモ</label><textarea class="form-input" id="s-memo" rows="3" placeholder="香りや味の印象など..." style="resize:none;line-height:1.6"></textarea></div>
+        </div>
+        <button class="submit-btn" onclick="sRegister()"><i class="ti ti-circle-plus"></i> 蔵出しに登録する</button>
+      </div>
+    </div>
+    <div class="screen" id="s-screen-cellar">
+      <div style="margin-top:1rem">
+        <div class="stats-bar" id="s-stats"></div>
+        <div id="s-recommend"></div>
+        <p class="section-label">登録済み日本酒</p>
+        <div class="item-list" id="s-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="wine-toast"></div>
+<div class="toast" id="sake-toast"></div>
+
+<script>
+/* ===== APIキー設定 =====
+   YOUR_API_KEY_HERE を Anthropic APIキーに置き換えてください
+   ====================== */
+const API_KEY = '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';
+
+function showApp(type){
+  document.getElementById('top-menu').style.display='none';
+  document.getElementById('wine-app').classList.remove('visible');
+  document.getElementById('sake-app').classList.remove('visible');
+  document.getElementById(type+'-app').classList.add('visible');
+  if(type==='wine')wRenderCellar();
+  if(type==='sake')sRenderCellar();
+}
+function showTop(){
+  document.getElementById('top-menu').style.display='flex';
+  document.getElementById('wine-app').classList.remove('visible');
+  document.getElementById('sake-app').classList.remove('visible');
+}
+
+// ===== 共通: 画像をcanvas経由でJPEGに変換 =====
+function convertToJpeg(file, callback){
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const img = new Image();
+    img.onload = function(){
+      const canvas = document.createElement('canvas');
+      // 長辺1600px以下にリサイズ（API容量制限対策）
+      const MAX = 1600;
+      let w = img.width, h = img.height;
+      if(w > MAX || h > MAX){
+        if(w > h){ h = Math.round(h * MAX / w); w = MAX; }
+        else { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const jpeg = canvas.toDataURL('image/jpeg', 0.9);
+      callback(jpeg, jpeg.split(',')[1]);
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ========================
+// ===== WINE =============
+// ========================
+const W_KEY='wine_db_v2';
+let wDB=[],wRating=0,wPending=null,wBase64=null;
+function wLoad(){try{const d=localStorage.getItem(W_KEY);if(d)wDB=JSON.parse(d);}catch(e){wDB=[];}}
+function wSave(){try{localStorage.setItem(W_KEY,JSON.stringify(wDB));}catch(e){}}
+function wSwitchTab(t){
+  document.querySelectorAll('[id^="w-tab-"]').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('#wine-app .screen').forEach(el=>el.classList.remove('active'));
+  document.getElementById('w-tab-'+t).classList.add('active');
+  document.getElementById('w-screen-'+t).classList.add('active');
+  if(t==='cellar')wRenderCellar();
+}
+function wHandleFile(e){
+  const file=e.target.files[0]; if(!file)return;
+  convertToJpeg(file, function(dataUrl, base64){
+    const preview=document.getElementById('w-preview-img');
+    preview.src=dataUrl; preview.style.display='block';
+    document.getElementById('w-upload-placeholder').style.display='none';
+    document.getElementById('w-upload-zone').classList.add('has-image');
+    document.getElementById('w-upload-badge').style.display='block';
+    document.getElementById('w-analyze-btn').disabled=false;
+    wBase64=base64;
+  });
+}
+async function wAnalyze(){
+  const btn=document.getElementById('w-analyze-btn');
+  btn.disabled=true; btn.innerHTML='<span>分析中</span><span class="loading-dots"><span></span><span></span><span></span></span>';
+  document.getElementById('w-result').innerHTML='';
+  const prompt='この画像はワインのラベルです。以下の情報をJSON形式のみで返してください（コードブロック不要）: {"name":"ワイン名","region":"産地","vintage":"年","type":"red/white/sparkling/rose","price_range":"価格帯（日本円）","rating":数字,"tannin":1から5の数字,"acidity":1から5の数字,"sweetness":1から5の数字,"body":1から5の数字,"fruit":1から5の数字,"oak":1から5の数字,"summary":"日本語2〜3文","food_pairing":"おすすめ料理"}';
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':API_KEY,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:'image/jpeg',data:wBase64}},
+          {type:'text',text:prompt}
+        ]}]
+      })
+    });
+    const data=await resp.json();
+    if(data.error){throw new Error(data.error.message);}
+    const w=JSON.parse(data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim());
+    wPending=w; wRenderResult(w);
+  }catch(e){
+    console.error('Wine API Error:',e);
+    document.getElementById('w-result').innerHTML='<div class="result-card" style="color:var(--wine-muted);font-size:13px;text-align:center"><i class="ti ti-alert-circle" style="font-size:24px;display:block;margin-bottom:8px"></i>分析に失敗しました。<br><small>'+e.message+'</small></div>';
+  }
+  btn.disabled=false; btn.innerHTML='<i class="ti ti-wand"></i> AIでワインを分析する';
+}
+function wRenderResult(w){
+  const bl={red:'badge-red',white:'badge-white',sparkling:'badge-sparkling',rose:'badge-rose'};
+  const tl={red:'赤ワイン',white:'白ワイン',sparkling:'スパークリング',rose:'ロゼ'};
+  const fields=[{l:'タンニン',v:w.tannin},{l:'酸味',v:w.acidity},{l:'甘み',v:w.sweetness},{l:'ボディ',v:w.body},{l:'フルーツ',v:w.fruit},{l:'樽の風味',v:w.oak}];
+  document.getElementById('w-result').innerHTML=`<div class="result-card">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+      <div><div class="item-name">${w.name||'不明'}</div><div class="item-region">${w.region||''} ${w.vintage||''}</div></div>
+      <span class="type-badge ${bl[w.type]||'badge-red'}">${tl[w.type]||'赤'}</span>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:0.75rem">
+      <span class="price-badge">💰 ${w.price_range||'-'}</span>
+      <span style="background:#FBF5E8;color:#7A5A10;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500">⭐ ${w.rating||'-'}/100</span>
+    </div>
+    <p class="section-label">味の特徴</p>
+    <div class="taste-grid">${fields.map(f=>`<div class="taste-item"><div class="taste-label">${f.l}</div><div class="taste-bar-wrap"><div class="taste-bar" style="width:${((f.v||1)/5)*100}%"></div></div><div class="taste-value">${f.v||1}/5</div></div>`).join('')}</div>
+    <div class="review-text">📝 ${w.summary||''}</div>
+    ${w.food_pairing?`<div class="review-text" style="border-top:none;padding-top:0">🍽 ${w.food_pairing}</div>`:''}
+    <button class="add-btn" onclick="wAddAnalyzed()"><i class="ti ti-circle-plus"></i> セラーに追加する</button>
+  </div>`;
+}
+function wAddAnalyzed(){
+  if(!wPending)return; const w=wPending;
+  wDB.push({id:Date.now(),name:w.name||'不明',type:w.type||'red',region:w.region||'',vintage:w.vintage||'',price:w.price_range||'',rating:Math.round((w.rating||70)/20),tannin:w.tannin||3,acidity:w.acidity||3,sweetness:w.sweetness||2,body:w.body||3,fruit:w.fruit||4,oak:w.oak||3,memo:w.summary||'',date:new Date().toLocaleDateString('ja-JP')});
+  wSave(); wToast('✅ セラーに追加しました！'); wPending=null;
+}
+function wSetRating(n){wRating=n;document.querySelectorAll('#w-stars i').forEach((el,i)=>el.classList.toggle('active',i<n));}
+function wRegister(){
+  const name=document.getElementById('w-name').value.trim();
+  if(!name){wToast('⚠️ ワイン名を入力してください');return;}
+  wDB.push({id:Date.now(),name,type:document.getElementById('w-type').value,region:document.getElementById('w-region').value,price:document.getElementById('w-price').value,rating:wRating||3,tannin:+document.getElementById('w-tannin').value,acidity:+document.getElementById('w-acid').value,sweetness:+document.getElementById('w-sweet').value,body:+document.getElementById('w-body').value,fruit:+document.getElementById('w-fruit').value,oak:+document.getElementById('w-oak').value,memo:document.getElementById('w-memo').value,date:new Date().toLocaleDateString('ja-JP')});
+  wSave(); wToast('🍷 セラーに登録しました！');
+  document.getElementById('w-name').value=''; document.getElementById('w-region').value=''; document.getElementById('w-memo').value='';
+  wSetRating(0); wSwitchTab('cellar');
+}
+function wRenderCellar(){
+  const bl={red:'badge-red',white:'badge-white',sparkling:'badge-sparkling',rose:'badge-rose'};
+  const tl={red:'赤',white:'白',sparkling:'泡',rose:'ロゼ'};
+  const total=wDB.length,avg=total?Math.round(wDB.reduce((s,w)=>s+w.rating,0)/total*10)/10:0,types=new Set(wDB.map(w=>w.type)).size;
+  document.getElementById('w-stats').innerHTML=`<div class="stat-chip"><span class="stat-num">${total}</span><span class="stat-lbl">本</span></div><div class="stat-chip"><span class="stat-num">${avg||'-'}</span><span class="stat-lbl">平均評価</span></div><div class="stat-chip"><span class="stat-num">${types}</span><span class="stat-lbl">タイプ</span></div>`;
+  const list=document.getElementById('w-list');
+  if(!total){list.innerHTML='<div class="empty-state"><i class="ti ti-bottle"></i>まだ登録されていません</div>';document.getElementById('w-recommend').innerHTML='';return;}
+  list.innerHTML=wDB.slice().reverse().map(w=>`<div class="item-card"><div class="item-thumb"><i class="ti ti-bottle"></i></div><div class="item-info"><div class="item-card-name">${w.name}</div><div class="item-card-meta">${w.region||'産地不明'} · ${w.date}</div><div class="item-stars">${'★'.repeat(w.rating)}${'☆'.repeat(5-w.rating)} <span class="type-badge ${bl[w.type]||'badge-red'}" style="margin-left:4px">${tl[w.type]||'赤'}</span></div></div></div>`).join('');
+  if(total>=2){
+    const avgO=Math.round(wDB.reduce((s,w)=>s+(w.oak||3),0)/total);
+    const avgT=Math.round(wDB.reduce((s,w)=>s+w.tannin,0)/total);
+    const avgA=Math.round(wDB.reduce((s,w)=>s+w.acidity,0)/total);
+    const avgF=Math.round(wDB.reduce((s,w)=>s+w.fruit,0)/total);
+    const recs=[];
+    if(avgO>=4)recs.push({name:'オーパス・ワン（ナパ・ヴァレー）',why:'樽熟成の風味が豊か'});
+    if(avgT>=4)recs.push({name:'カベルネ・ソーヴィニヨン（ナパ）',why:'高タンニン好みにぴったり'});
+    if(avgA>=4)recs.push({name:'クロ・デュ・ボワ シャルドネ',why:'高酸味のフレッシュ系白ワイン'});
+    if(avgF>=4)recs.push({name:'コノスル ピノ・ノワール',why:'フルーティーな風味が豊か'});
+    if(!recs.length)recs.push({name:'バローロ・リゼルバ',why:'バランス型のオールラウンダー'});
+    document.getElementById('w-recommend').innerHTML=`<div class="recommend-section"><div class="recommend-title">🤖 AIおすすめワイン</div><div class="recommend-sub">あなたの好みを分析した結果</div><div class="recommend-chips">${recs.slice(0,3).map(r=>`<div class="recommend-chip"><i class="ti ti-sparkles"></i><div><div class="chip-name">${r.name}</div><span class="chip-why">${r.why}</span></div></div>`).join('')}</div></div>`;
+  }else{document.getElementById('w-recommend').innerHTML='';}
+}
+function wToast(msg){const t=document.getElementById('wine-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// ========================
+// ===== SAKE =============
+// ========================
+const S_KEY='sake_db_v1';
+let sDB=[],sRating=0,sPending=null,sBase64=null;
+function sLoad(){try{const d=localStorage.getItem(S_KEY);if(d)sDB=JSON.parse(d);}catch(e){sDB=[];}}
+function sSave(){try{localStorage.setItem(S_KEY,JSON.stringify(sDB));}catch(e){}}
+function sSwitchTab(t){
+  document.querySelectorAll('[id^="s-tab-"]').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('#sake-app .screen').forEach(el=>el.classList.remove('active'));
+  document.getElementById('s-tab-'+t).classList.add('active');
+  document.getElementById('s-screen-'+t).classList.add('active');
+  if(t==='cellar')sRenderCellar();
+}
+function sHandleFile(e){
+  const file=e.target.files[0]; if(!file)return;
+  convertToJpeg(file, function(dataUrl, base64){
+    const preview=document.getElementById('s-preview-img');
+    preview.src=dataUrl; preview.style.display='block';
+    document.getElementById('s-upload-placeholder').style.display='none';
+    document.getElementById('s-upload-zone').classList.add('has-image');
+    document.getElementById('s-upload-badge').style.display='block';
+    document.getElementById('s-analyze-btn').disabled=false;
+    sBase64=base64;
+  });
+}
+async function sAnalyze(){
+  const btn=document.getElementById('s-analyze-btn');
+  btn.disabled=true; btn.innerHTML='<span>分析中</span><span class="loading-dots"><span></span><span></span><span></span></span>';
+  document.getElementById('s-result').innerHTML='';
+  const prompt='この画像は日本酒のラベルです。以下の情報をJSON形式のみで返してください（コードブロック不要）: {"name":"銘柄名","brewery":"蔵元","region":"産地","type":"junmai-daiginjo/daiginjo/junmai-ginjo/ginjo/junmai/honjozo/futsu","price_range":"価格帯（日本円）","rating":数字,"umami":1から5の数字,"aroma":1から5の数字,"body":1から5の数字,"finish":1から5の数字,"summary":"日本語2〜3文","food_pairing":"おすすめ料理"}';
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':API_KEY,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:'image/jpeg',data:sBase64}},
+          {type:'text',text:prompt}
+        ]}]
+      })
+    });
+    const data=await resp.json();
+    if(data.error){throw new Error(data.error.message);}
+    const s=JSON.parse(data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim());
+    sPending=s; sRenderResult(s);
+  }catch(e){
+    console.error('Sake API Error:',e);
+    document.getElementById('s-result').innerHTML='<div class="result-card" style="color:var(--sake-muted);font-size:13px;text-align:center"><i class="ti ti-alert-circle" style="font-size:24px;display:block;margin-bottom:8px"></i>分析に失敗しました。<br><small>'+e.message+'</small></div>';
+  }
+  btn.disabled=false; btn.innerHTML='<i class="ti ti-wand"></i> AIで日本酒を分析する';
+}
+const sTL={'junmai-daiginjo':'純米大吟醸','daiginjo':'大吟醸','junmai-ginjo':'純米吟醸','ginjo':'吟醸','junmai':'純米','honjozo':'本醸造','futsu':'普通酒'};
+function sRenderResult(s){
+  const fields=[{l:'旨味',v:s.umami},{l:'香り',v:s.aroma},{l:'コク',v:s.body},{l:'後味・キレ',v:s.finish}];
+  document.getElementById('s-result').innerHTML=`<div class="result-card">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+      <div><div class="item-name">${s.name||'不明'}</div><div class="item-region">${s.brewery||''} ${s.region?'/ '+s.region:''}</div></div>
+      <span class="type-badge">${sTL[s.type]||s.type||'純米'}</span>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:0.75rem">
+      <span class="price-badge">💰 ${s.price_range||'-'}</span>
+      <span style="background:#f0f0ee;color:#555;padding:4px 12px;border-radius:4px;font-size:12px;font-weight:500">⭐ ${s.rating||'-'}/100</span>
+    </div>
+    <p class="section-label">味の特徴</p>
+    <div class="taste-grid">${fields.map(f=>`<div class="taste-item"><div class="taste-label">${f.l}</div><div class="taste-bar-wrap"><div class="taste-bar" style="width:${((f.v||1)/5)*100}%"></div></div><div class="taste-value">${f.v||1}/5</div></div>`).join('')}</div>
+    <div class="review-text">📝 ${s.summary||''}</div>
+    ${s.food_pairing?`<div class="review-text" style="border-top:none;padding-top:0">🍽 ${s.food_pairing}</div>`:''}
+    <button class="add-btn" onclick="sAddAnalyzed()"><i class="ti ti-circle-plus"></i> 蔵出しに追加する</button>
+  </div>`;
+}
+function sAddAnalyzed(){
+  if(!sPending)return; const s=sPending;
+  sDB.push({id:Date.now(),name:s.name||'不明',type:s.type||'junmai',region:(s.brewery||'')+(s.region?' / '+s.region:''),price:s.price_range||'',rating:Math.round((s.rating||70)/20),umami:s.umami||3,aroma:s.aroma||3,body:s.body||3,finish:s.finish||3,memo:s.summary||'',date:new Date().toLocaleDateString('ja-JP')});
+  sSave(); sToast('✅ 蔵出しに追加しました！'); sPending=null;
+}
+function sSetRating(n){sRating=n;document.querySelectorAll('#s-stars i').forEach((el,i)=>el.classList.toggle('active',i<n));}
+function sRegister(){
+  const name=document.getElementById('s-name').value.trim();
+  if(!name){sToast('⚠️ 銘柄名を入力してください');return;}
+  sDB.push({id:Date.now(),name,type:document.getElementById('s-type').value,region:document.getElementById('s-region').value,price:document.getElementById('s-price').value,rating:sRating||3,umami:+document.getElementById('s-umami').value,aroma:+document.getElementById('s-aroma').value,body:+document.getElementById('s-body').value,finish:+document.getElementById('s-finish').value,memo:document.getElementById('s-memo').value,date:new Date().toLocaleDateString('ja-JP')});
+  sSave(); sToast('🍶 蔵出しに登録しました！');
+  document.getElementById('s-name').value=''; document.getElementById('s-region').value=''; document.getElementById('s-memo').value='';
+  sSetRating(0); sSwitchTab('cellar');
+}
+function sRenderCellar(){
+  const total=sDB.length,avg=total?Math.round(sDB.reduce((s,w)=>s+w.rating,0)/total*10)/10:0,types=new Set(sDB.map(s=>s.type)).size;
+  document.getElementById('s-stats').innerHTML=`<div class="stat-chip"><span class="stat-num">${total}</span><span class="stat-lbl">本</span></div><div class="stat-chip"><span class="stat-num">${avg||'-'}</span><span class="stat-lbl">平均評価</span></div><div class="stat-chip"><span class="stat-num">${types}</span><span class="stat-lbl">種類</span></div>`;
+  const list=document.getElementById('s-list');
+  if(!total){list.innerHTML='<div class="empty-state"><i class="ti ti-bottle"></i>まだ登録されていません</div>';document.getElementById('s-recommend').innerHTML='';return;}
+  list.innerHTML=sDB.slice().reverse().map(s=>`<div class="item-card"><div class="item-thumb"><i class="ti ti-bottle"></i></div><div class="item-info"><div class="item-card-name">${s.name}</div><div class="item-card-meta">${s.region||'蔵元不明'} · ${s.date}</div><div class="item-stars">${'★'.repeat(s.rating)}${'☆'.repeat(5-s.rating)} <span class="type-badge" style="margin-left:4px">${sTL[s.type]||s.type}</span></div></div></div>`).join('');
+  if(total>=2){
+    const avgA=Math.round(sDB.reduce((s,w)=>s+w.aroma,0)/total);
+    const avgU=Math.round(sDB.reduce((s,w)=>s+w.umami,0)/total);
+    const avgB=Math.round(sDB.reduce((s,w)=>s+w.body,0)/total);
+    const avgF=Math.round(sDB.reduce((s,w)=>s+w.finish,0)/total);
+    const recs=[];
+    if(avgA>=4)recs.push({name:'獺祭 純米大吟醸 磨き二割三分',why:'フルーティーな吟醸香が豊か'});
+    if(avgU>=4)recs.push({name:'田酒 純米大吟醸',why:'米の旨味が深く濃厚'});
+    if(avgB>=4)recs.push({name:'鍋島 特別純米',why:'コクとバランスが絶妙'});
+    if(avgF>=4)recs.push({name:'久保田 千寿',why:'キレのよい後味が爽快'});
+    if(!recs.length)recs.push({name:'十四代 本丸 本醸造',why:'バランスが良くどんな好みにも合う'});
+    document.getElementById('s-recommend').innerHTML=`<div class="recommend-section"><div class="recommend-title">🤖 AIおすすめ日本酒</div><div class="recommend-sub">あなたの好みを分析した結果</div><div class="recommend-chips">${recs.slice(0,3).map(r=>`<div class="recommend-chip"><i class="ti ti-sparkles"></i><div><div class="chip-name">${r.name}</div><span class="chip-why">${r.why}</span></div></div>`).join('')}</div></div>`;
+  }else{document.getElementById('s-recommend').innerHTML='';}
+}
+function sToast(msg){const t=document.getElementById('sake-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+wLoad(); sLoad();
+</script>
+</body>
+</html>

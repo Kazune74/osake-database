@@ -277,7 +277,7 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
         <img id="w-preview-img" style="display:none" alt="プレビュー"/>
         <div class="upload-badge" id="w-upload-badge" style="display:none"><i class="ti ti-check"></i> 選択済み</div>
       </div>
-      <input type="file" id="w-file-input" accept="image/*" onchange="wHandleFile(event)"/>
+      <input type="file" id="w-file-input" accept="image/*,.heic,.heif" onchange="wHandleFile(event)"/>
       <button class="analyze-btn" id="w-analyze-btn" onclick="wAnalyze()" disabled><i class="ti ti-wand"></i> AIでワインを分析する</button>
       <div id="w-result"></div>
     </div>
@@ -361,7 +361,7 @@ body{font-family:'DM Sans',sans-serif;min-height:100vh;max-width:480px;margin:0 
         <img id="s-preview-img" style="display:none" alt="プレビュー"/>
         <div class="upload-badge" id="s-upload-badge" style="display:none"><i class="ti ti-check"></i> 選択済み</div>
       </div>
-      <input type="file" id="s-file-input" accept="image/*" onchange="sHandleFile(event)"/>
+      <input type="file" id="s-file-input" accept="image/*,.heic,.heif" onchange="sHandleFile(event)"/>
       <button class="analyze-btn" id="s-analyze-btn" onclick="sAnalyze()" disabled><i class="ti ti-wand"></i> AIで日本酒を分析する</button>
       <div id="s-result"></div>
     </div>
